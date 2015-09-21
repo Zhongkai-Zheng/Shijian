@@ -20,6 +20,10 @@
             android:name=".SaveTimePage"
             android:label="@string/title_activity_save_time_page" >
         </activity>
+        <activity
+            android:name=".RecordTime"
+            android:label="@string/title_activity_record_time" >
+        </activity>
     </application>
 
 </manifest>
