@@ -13,4 +13,8 @@
     <string name="stop">Stop</string>
     <string name="reset">Reset</string>
     <string name="save">Save</string>
+    <string name="title_activity_history_page">HistoryPage</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_settings_page">SettingsPage</string>
 </resources>

@@ -1,16 +1,48 @@
 package com.example.alexzheng.shijian;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class HomeScreen extends AppCompatActivity {
+
+    private Button mNewTimeButton, mHistoryButton, mOptionsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        mHistoryButton = (Button)findViewById(R.id.history_button);
+        mNewTimeButton = (Button)findViewById(R.id.new_time_button);
+        mOptionsButton = (Button)findViewById(R.id.options_button);
+
+        mHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
+                startActivity(goToNextActivity);
+            }
+        });
+
+        mNewTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToNextActivity = new Intent(getApplicationContext(), RecordTime.class);
+                startActivity(goToNextActivity);
+            }
+        });
+
+        mOptionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToNextActivity = new Intent(getApplicationContext(), SettingsPage.class);
+                startActivity(goToNextActivity);
+            }
+        });
     }
 
     @Override
