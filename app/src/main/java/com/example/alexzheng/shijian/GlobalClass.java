@@ -18,7 +18,12 @@ public class GlobalClass extends ArrayList<Folder>{
     private int tempTimeSelection;
 
     public GlobalClass(){
-
+        this.folderList = new ArrayList();
+        this.tempStartTime = new int[]{0, 0, 0, 0, 0, 0};
+        this.tempEndTime = new int[]{0, 0, 0, 0, 0, 0};
+        this.tempDuration = new int[]{0, 0, 0, 0, 0, 0};
+        this.tempFolderSelection = 0;
+        this.tempTimeSelection = 0;
     }
 
     public static synchronized GlobalClass getInstance(){
@@ -67,5 +72,9 @@ public class GlobalClass extends ArrayList<Folder>{
 
     public void setTempTimeSelection(int x){
         this.tempTimeSelection = x;
+    }
+
+    public void addFolder(Folder x){
+        this.folderList.add(x);
     }
 }

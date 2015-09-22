@@ -67,6 +67,7 @@ public class HistoryPage extends ListActivity implements LoaderManager.LoaderCal
     }
 
     public void onListItemClick(ListView l, View v, int position, long id) {
+        GlobalClass.getInstance().setTempFolderSelection((int) id);
         Intent goToNextActivity = new Intent(getApplicationContext(), TimesPage.class);
         startActivity(goToNextActivity);
         // Do something when a list item is clicked
@@ -74,7 +75,7 @@ public class HistoryPage extends ListActivity implements LoaderManager.LoaderCal
 
     public void setFolderNames(){
         for(int i = 0; i < GlobalClass.getInstance().getFolderList().size(); i++){
-            this.folderNames[i] = GlobalClass.getInstance().getFolderList().get(i).getName();
+            folderNames[i] = GlobalClass.getInstance().getFolderList().get(i).getName();
         }
     }
 }

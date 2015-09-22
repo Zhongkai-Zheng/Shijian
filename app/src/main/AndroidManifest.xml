@@ -36,6 +36,10 @@
             android:name=".TimesPage"
             android:label="@string/title_activity_times_page" >
         </activity>
+        <activity
+            android:name=".SingleTimePage"
+            android:label="@string/title_activity_single_time_page" >
+        </activity>
     </application>
 
 </manifest>

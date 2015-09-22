@@ -13,7 +13,7 @@ public class Folder extends ArrayList<Time> {
 
     public Folder(String folderName){
         this.name = folderName;
-        this.timeArray = new ArrayList();
+        //this.timeArray = new ArrayList();
     }
 
     public ArrayList<Time> getArrayList(){
