@@ -13,26 +13,26 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class HistoryPage extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TimesPage extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private ListView listOfFolders;
-    private String[] folderNames;
+    private ListView timesList;
+    private String[] timeNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        timesList = (ListView)findViewById(R.id.time_list);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_page);
-        listOfFolders = (ListView)findViewById(R.id.list_of_folders);
-        this.setFolderNames();
+        setContentView(R.layout.activity_times_page);
+        setTimeNames();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, folderNames);
-        listOfFolders.setAdapter(adapter);
+                android.R.layout.simple_list_item_1, android.R.id.text1, timeNames);
+        timesList.setAdapter(adapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_history_page, menu);
+        getMenuInflater().inflate(R.menu.menu_times_page, menu);
         return true;
     }
 
@@ -68,14 +68,14 @@ public class HistoryPage extends ListActivity implements LoaderManager.LoaderCal
 
     public void onListItemClick(ListView l, View v, int position, long id) {
         GlobalClass.getInstance().setTempFolderSelection((int) id);
-        Intent goToNextActivity = new Intent(getApplicationContext(), TimesPage.class);
+        Intent goToNextActivity = new Intent(getApplicationContext(), SingleTimePage.class);
         startActivity(goToNextActivity);
         // Do something when a list item is clicked
     }
 
-    public void setFolderNames(){
-        for(int i = 0; i < GlobalClass.getInstance().getFolderList().size(); i++){
-            folderNames[i] = GlobalClass.getInstance().getFolderList().get(i).getName();
+    public void setTimeNames(){
+        for(int i = 0; i < GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).size(); i++){
+            timeNames[i] = GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).get(i).getName();
         }
     }
 }

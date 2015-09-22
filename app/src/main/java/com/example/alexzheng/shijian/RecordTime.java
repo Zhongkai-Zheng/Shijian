@@ -1,6 +1,10 @@
 package com.example.alexzheng.shijian;
 
+<<<<<<< HEAD
 import android.os.SystemClock;
+=======
+import android.content.Intent;
+>>>>>>> 88f575581714b1fa814c87aea76de720575a698c
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,8 +18,11 @@ public class RecordTime extends AppCompatActivity {
 
     private TextView mTimeTextView;
     private Button mStartButton, mResetButton, mSaveButton;
+<<<<<<< HEAD
     private Chronometer mChronometer;
 
+=======
+>>>>>>> 88f575581714b1fa814c87aea76de720575a698c
     private boolean isStopped; // true if timer stopped, false if timer going
 
     @Override
@@ -50,6 +57,8 @@ public class RecordTime extends AppCompatActivity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent goToNextActivity = new Intent(getApplicationContext(), SaveTimePage.class);
+                startActivity(goToNextActivity);
             }
         });
     }
