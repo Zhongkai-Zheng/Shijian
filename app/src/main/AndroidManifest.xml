@@ -24,6 +24,14 @@
             android:name=".RecordTime"
             android:label="@string/title_activity_record_time" >
         </activity>
+        <activity
+            android:name=".HistoryPage"
+            android:label="@string/title_activity_history_page" >
+        </activity>
+        <activity
+            android:name=".SettingsPage"
+            android:label="@string/title_activity_settings_page" >
+        </activity>
     </application>
 
 </manifest>

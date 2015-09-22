@@ -13,7 +13,14 @@
     <string name="stop">Stop</string>
     <string name="reset">Reset</string>
     <string name="save">Save</string>
+<<<<<<< HEAD
 
     <string name="title">Title</string>
     <string name="folder">Folder</string>
+=======
+    <string name="title_activity_history_page">HistoryPage</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_settings_page">SettingsPage</string>
+>>>>>>> ad1207e0cec3bf6bffd98832cf8352fc113a0fe6
 </resources>
