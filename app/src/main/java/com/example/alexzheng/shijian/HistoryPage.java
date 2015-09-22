@@ -1,16 +1,32 @@
 package com.example.alexzheng.shijian;
 
+import android.app.ListActivity;
+import android.app.LoaderManager;
+import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-public class HistoryPage extends AppCompatActivity {
+public class HistoryPage extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private ListView listOfFolders;
+    private String[] folderNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_page);
+        listOfFolders = (ListView)findViewById(R.id.list_of_folders);
+        this.setFolderNames();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, folderNames);
+        listOfFolders.setAdapter(adapter);
     }
 
     @Override
@@ -33,5 +49,32 @@ public class HistoryPage extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Intent goToNextActivity = new Intent(getApplicationContext(), TimesPage.class);
+        startActivity(goToNextActivity);
+        // Do something when a list item is clicked
+    }
+
+    public void setFolderNames(){
+        for(int i = 0; i < GlobalClass.getInstance().getFolderList().size(); i++){
+            this.folderNames[i] = GlobalClass.getInstance().getFolderList().get(i).getName();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.alexzheng.shijian;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -45,6 +46,8 @@ public class RecordTime extends AppCompatActivity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent goToNextActivity = new Intent(getApplicationContext(), SaveTimePage.class);
+                startActivity(goToNextActivity);
             }
         });
     }

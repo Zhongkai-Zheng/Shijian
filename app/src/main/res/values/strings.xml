@@ -22,5 +22,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_settings_page">SettingsPage</string>
+    <string name="title_activity_times_page">TimesPage</string>
 >>>>>>> ad1207e0cec3bf6bffd98832cf8352fc113a0fe6
 </resources>
