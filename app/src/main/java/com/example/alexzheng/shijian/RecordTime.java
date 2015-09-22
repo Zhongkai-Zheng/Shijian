@@ -12,7 +12,6 @@ public class RecordTime extends AppCompatActivity {
 
     private TextView mTimeTextView;
     private Button mStartButton, mResetButton, mSaveButton;
-
     private boolean isStopped; // true if timer stopped, false if timer going
 
     @Override
