@@ -8,12 +8,12 @@ import java.util.ArrayList;
  */
 public class Folder extends ArrayList<Time> {
 
-    private ArrayList timeArray;
+    private ArrayList<Time> timeArray;
     private String name;
 
     public Folder(String folderName){
         this.name = folderName;
-        //this.timeArray = new ArrayList();
+        this.timeArray = new ArrayList<Time>();
     }
 
     public ArrayList<Time> getArrayList(){

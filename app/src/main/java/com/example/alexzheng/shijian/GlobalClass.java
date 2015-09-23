@@ -9,16 +9,15 @@ import java.util.ArrayList;
  */
 public class GlobalClass extends ArrayList<Folder>{
 
-    private static GlobalClass globalClass = new GlobalClass();
-    private ArrayList folderList;
-    private int[] tempStartTime;
-    private int[] tempEndTime;
-    private int[] tempDuration;
-    private int tempFolderSelection;
-    private int tempTimeSelection;
+    public static GlobalClass globalClass = new GlobalClass();
+    public static ArrayList<Folder> folderList = new ArrayList<Folder>();
+    private static int[] tempStartTime = new int[]{0, 0, 0, 0, 0, 0};
+    private static int[] tempEndTime = new int[]{0, 0, 0, 0, 0, 0};
+    private static int[] tempDuration = new int[]{0, 0, 0, 0, 0, 0};
+    private static int tempFolderSelection = 0;
+    private static int tempTimeSelection = 0;
 
     public GlobalClass(){
-        this.folderList = new ArrayList();
         this.tempStartTime = new int[]{0, 0, 0, 0, 0, 0};
         this.tempEndTime = new int[]{0, 0, 0, 0, 0, 0};
         this.tempDuration = new int[]{0, 0, 0, 0, 0, 0};
