@@ -27,8 +27,8 @@ public class SaveTimePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(useNewFolder == true){
-                    GlobalClass.getInstance().addFolder(new Folder("hi"));
-                    GlobalClass.getInstance().getFolderList().get(1).addTime(new Time("hi", GlobalClass.getInstance().getTempStartTime(), GlobalClass.getInstance().getTempEndTime()));
+                    GlobalClass.getInstance().addFolder(new Folder(newFolderName.toString()));
+                    GlobalClass.getInstance().getFolderList().get(0).addTime(new Time(timeName.toString(), GlobalClass.getInstance().getTempStartTime(), GlobalClass.getInstance().getTempEndTime()));
                 }
                 else{
                     GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).addTime(new Time(timeName.toString(), GlobalClass.getInstance().getTempStartTime(), GlobalClass.getInstance().getTempEndTime()));
