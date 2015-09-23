@@ -4,6 +4,7 @@ import android.os.SystemClock;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,9 @@ public class RecordTime extends AppCompatActivity {
 
     private boolean isStopped; // true if timer stopped, false if timer going
 
+    // timeWhenStopped stuff from http://stackoverflow.com/questions/5740516/chronometer-doesnt-stop-in-android
+    private long timeWhenStopped;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,8 @@ public class RecordTime extends AppCompatActivity {
     }
 
     private void setUpButtons() {
+        isStopped = true;
+
         mStartButton = (Button) findViewById(R.id.start_button);
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,38 +62,55 @@ public class RecordTime extends AppCompatActivity {
 
     private void setUpChronometer() {
         mChronometer = (Chronometer) findViewById(R.id.time_Chronometer);
+        timeWhenStopped = 0;
 
         // http://stackoverflow.com/questions/4152569/how-to-change-format-of-chronometer
-        mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener(){
+        mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer cArg) {
                 long time = SystemClock.elapsedRealtime() - cArg.getBase();
-                int h = (int)(time/3600000);
-                int m = (int)(time - h*3600000)/60000;
-                int s = (int)(time - h*3600000- m*60000)/1000 ;
-                String hh = h < 10 ? "0"+h: h+"";
-                String mm = m < 10 ? "0"+m: m+"";
-                String ss = s < 10 ? "0"+s: s+"";
-                cArg.setText(hh+":"+mm+":"+ss);
+                int h = (int) (time / 3600000);
+                int m = (int) (time - h * 3600000) / 60000;
+                int s = (int) (time - h * 3600000 - m * 60000) / 1000;
+                String hh = h < 10 ? "0" + h : h + "";
+                String mm = m < 10 ? "0" + m : m + "";
+                String ss = s < 10 ? "0" + s : s + "";
+                cArg.setText(hh + ":" + mm + ":" + ss);
             }
         });
-        mChronometer.setBase(SystemClock.elapsedRealtime());
-        mChronometer.start();
     }
 
     private void changeTimerState() {
         if(isStopped) {
+            // previously was stopped
+            if (timeWhenStopped == 0) {
+                mChronometer.setBase(SystemClock.elapsedRealtime());
+            }
+            else {
+                mChronometer.setBase(mChronometer.getBase() + SystemClock.elapsedRealtime() - timeWhenStopped);
+            }
 
+            mChronometer.start();
+            mStartButton.setText("Stop");
         }
         else {
-
+            // previously was running
+            timeWhenStopped = SystemClock.elapsedRealtime();
+            mChronometer.stop();
+            mStartButton.setText("Start");
         }
 
         isStopped = !isStopped;
     }
 
     private void reset() {
+        mChronometer.stop();
 
+        isStopped = true;
+        timeWhenStopped = 0;
+        
+        mStartButton.setText("Start");
+        mChronometer.setText("00:00:00");
     }
 
     @Override
