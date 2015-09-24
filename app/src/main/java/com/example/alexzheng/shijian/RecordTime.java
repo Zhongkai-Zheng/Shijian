@@ -4,18 +4,16 @@ import android.os.SystemClock;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.TextView;
 
 public class RecordTime extends AppCompatActivity {
 
-    private Button mStartButton, mResetButton, mSaveButton;
-    private Chronometer mChronometer;
+    private Button startButton, resetButton, saveButton;
+    private Chronometer timer;
 
     private boolean isStopped; // true if timer stopped, false if timer going
 
@@ -34,24 +32,24 @@ public class RecordTime extends AppCompatActivity {
     private void setUpButtons() {
         isStopped = true;
 
-        mStartButton = (Button) findViewById(R.id.start_button);
-        mStartButton.setOnClickListener(new View.OnClickListener() {
+        startButton = (Button) findViewById(R.id.start_button);
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeTimerState();
             }
         });
 
-        mResetButton = (Button) findViewById(R.id.reset_button);
-        mResetButton.setOnClickListener(new View.OnClickListener() {
+        resetButton = (Button) findViewById(R.id.reset_button);
+        resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 reset();
             }
         });
 
-        mSaveButton = (Button) findViewById(R.id.save_button);
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
+        saveButton = (Button) findViewById(R.id.save_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent goToNextActivity = new Intent(getApplicationContext(), SaveTimePage.class);
@@ -61,11 +59,11 @@ public class RecordTime extends AppCompatActivity {
     }
 
     private void setUpChronometer() {
-        mChronometer = (Chronometer) findViewById(R.id.time_Chronometer);
+        timer = (Chronometer) findViewById(R.id.time_Chronometer);
         timeWhenStopped = 0;
 
         // http://stackoverflow.com/questions/4152569/how-to-change-format-of-chronometer
-        mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+        timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer cArg) {
                 long time = SystemClock.elapsedRealtime() - cArg.getBase();
@@ -84,33 +82,33 @@ public class RecordTime extends AppCompatActivity {
         if(isStopped) {
             // previously was stopped
             if (timeWhenStopped == 0) {
-                mChronometer.setBase(SystemClock.elapsedRealtime());
+                timer.setBase(SystemClock.elapsedRealtime());
             }
             else {
-                mChronometer.setBase(mChronometer.getBase() + SystemClock.elapsedRealtime() - timeWhenStopped);
+                timer.setBase(timer.getBase() + SystemClock.elapsedRealtime() - timeWhenStopped);
             }
 
-            mChronometer.start();
-            mStartButton.setText("Stop");
+            timer.start();
+            startButton.setText("Stop");
         }
         else {
             // previously was running
             timeWhenStopped = SystemClock.elapsedRealtime();
-            mChronometer.stop();
-            mStartButton.setText("Start");
+            timer.stop();
+            startButton.setText("Start");
         }
 
         isStopped = !isStopped;
     }
 
     private void reset() {
-        mChronometer.stop();
+        timer.stop();
 
         isStopped = true;
         timeWhenStopped = 0;
-        
-        mStartButton.setText("Start");
-        mChronometer.setText("00:00:00");
+
+        startButton.setText("Start");
+        timer.setText("00:00:00");
     }
 
     @Override

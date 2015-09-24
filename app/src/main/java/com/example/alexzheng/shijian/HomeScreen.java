@@ -10,17 +10,17 @@ import android.widget.Button;
 
 public class HomeScreen extends AppCompatActivity {
 
-    private Button mNewTimeButton, mHistoryButton, mOptionsButton;
+    private Button newTimeButton, historyButton, optionsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        mHistoryButton = (Button)findViewById(R.id.history_button);
-        mNewTimeButton = (Button)findViewById(R.id.new_time_button);
-        mOptionsButton = (Button)findViewById(R.id.options_button);
+        historyButton = (Button)findViewById(R.id.history_button);
+        newTimeButton = (Button)findViewById(R.id.new_time_button);
+        optionsButton = (Button)findViewById(R.id.options_button);
 
-        mHistoryButton.setOnClickListener(new View.OnClickListener() {
+        historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
@@ -28,7 +28,7 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-        mNewTimeButton.setOnClickListener(new View.OnClickListener() {
+        newTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent goToNextActivity = new Intent(getApplicationContext(), RecordTime.class);
@@ -36,7 +36,7 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-        mOptionsButton.setOnClickListener(new View.OnClickListener() {
+        optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent goToNextActivity = new Intent(getApplicationContext(), SettingsPage.class);

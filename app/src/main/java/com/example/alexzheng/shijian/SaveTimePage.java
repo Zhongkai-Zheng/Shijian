@@ -19,18 +19,19 @@ public class SaveTimePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_time_page);
-        timeName = (EditText)findViewById(R.id.time_name);
-        newFolderName = (EditText)findViewById(R.id.time_name);
-        saveButton = (Button)findViewById(R.id.save_button);
+
+        timeName = (EditText) findViewById(R.id.time_name);
+        newFolderName = (EditText) findViewById(R.id.time_name);
+
+        saveButton = (Button) findViewById(R.id.save_button);
         cancelButton = (Button)findViewById(R.id.cancel_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(useNewFolder == true){
+                if (useNewFolder == true) {
                     GlobalClass.getInstance().addFolder(new Folder(newFolderName.toString()));
                     GlobalClass.getInstance().getFolderList().get(0).addTime(new Time(timeName.toString(), GlobalClass.getInstance().getTempStartTime(), GlobalClass.getInstance().getTempEndTime()));
-                }
-                else{
+                } else {
                     GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).addTime(new Time(timeName.toString(), GlobalClass.getInstance().getTempStartTime(), GlobalClass.getInstance().getTempEndTime()));
                 }
                 Intent goToNextActivity = new Intent(getApplicationContext(), HomeScreen.class);
