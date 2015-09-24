@@ -4,26 +4,30 @@ import android.provider.Settings;
 
 import java.util.ArrayList;
 
-/**
- * Created by alexzheng on 9/22/15.
- */
-public class GlobalClass extends ArrayList<Folder>{
+public class GlobalClass {
 
     public static GlobalClass globalClass = new GlobalClass();
-    public static ArrayList<Folder> folderList = new ArrayList<Folder>();
-    private static int[] tempStartTime = new int[]{0, 0, 0, 0, 0, 0};
-    private static int[] tempEndTime = new int[]{0, 0, 0, 0, 0, 0};
-    private static int[] tempDuration = new int[]{0, 0, 0, 0, 0, 0};
-    private static int tempFolderSelection = 0;
-    private static int tempTimeSelection = 0;
+    public static ArrayList<Folder> folderList;
+
+    private static int[] tempStartTime;
+    private static int[] tempEndTime;
+    private static int tempDuration;
+
+    private static int tempFolderSelection;
+    private static int tempTimeSelection;
 
     public GlobalClass(){
-        this.tempStartTime = new int[]{0, 0, 0, 0, 0, 0};
-        this.tempEndTime = new int[]{0, 0, 0, 0, 0, 0};
-        this.tempDuration = new int[]{0, 0, 0, 0, 0, 0};
+        folderList = new ArrayList<Folder>();
+        // 6 represents Year, Month, Day, Hour, Minute, Second
+
+        this.tempStartTime = new int[6];
+        this.tempEndTime = new int[6];
+
         this.tempFolderSelection = 0;
         this.tempTimeSelection = 0;
     }
+
+    // getters and setters
 
     public static synchronized GlobalClass getInstance(){
         return globalClass;
@@ -41,7 +45,7 @@ public class GlobalClass extends ArrayList<Folder>{
         return this.tempEndTime;
     }
 
-    public int[] getTempDuration(){
+    public int getTempDuration(){
         return this.tempDuration;
     }
 
@@ -61,7 +65,7 @@ public class GlobalClass extends ArrayList<Folder>{
         this.tempEndTime = x;
     }
 
-    public void setTempDuration(int[] x){
+    public void setTempDuration(int x){
         this.tempDuration = x;
     }
 

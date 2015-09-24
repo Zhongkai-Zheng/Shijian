@@ -16,7 +16,7 @@ import android.widget.ListView;
 public class HistoryPage extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private ListView listOfFolders;
-    private String[] folderNames;
+    private static String[] folderNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

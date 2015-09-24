@@ -3,10 +3,7 @@ package com.example.alexzheng.shijian;
 import java.util.AbstractList;
 import java.util.ArrayList;
 
-/**
- * Created by alexzheng on 9/22/15.
- */
-public class Folder extends ArrayList<Time> {
+public class Folder {
 
     private ArrayList<Time> timeArray;
     private String name;
@@ -15,6 +12,8 @@ public class Folder extends ArrayList<Time> {
         this.name = folderName;
         this.timeArray = new ArrayList<Time>();
     }
+
+    // getters and setters
 
     public ArrayList<Time> getArrayList(){
         return this.timeArray;
