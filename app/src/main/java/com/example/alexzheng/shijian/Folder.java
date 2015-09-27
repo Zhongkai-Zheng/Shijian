@@ -27,6 +27,10 @@ public class Folder {
         return this.name;
     }
 
+    public Time getTime() {
+        return timeArray.get(timeArray.size() - 1);
+    }
+
     public void setName(String x){
         this.name = x;
     }

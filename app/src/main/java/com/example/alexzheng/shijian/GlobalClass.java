@@ -11,7 +11,7 @@ public class GlobalClass {
 
     private static int[] tempStartTime;
     private static int[] tempEndTime;
-    private static int tempDuration;
+    private static long tempDuration;
 
     private static int tempFolderSelection;
     private static int tempTimeSelection;
@@ -26,8 +26,6 @@ public class GlobalClass {
         this.tempFolderSelection = 0;
         this.tempTimeSelection = 0;
     }
-
-    // getters and setters
 
     public static synchronized GlobalClass getInstance(){
         return globalClass;
@@ -45,7 +43,7 @@ public class GlobalClass {
         return this.tempEndTime;
     }
 
-    public int getTempDuration(){
+    public long getTempDuration(){
         return this.tempDuration;
     }
 
@@ -57,6 +55,7 @@ public class GlobalClass {
         return this.tempTimeSelection;
     }
 
+
     public void setTempStartTime(int[] x){
         this.tempStartTime = x;
     }
@@ -65,7 +64,7 @@ public class GlobalClass {
         this.tempEndTime = x;
     }
 
-    public void setTempDuration(int x){
+    public void setTempDuration(long x){
         this.tempDuration = x;
     }
 
@@ -76,6 +75,7 @@ public class GlobalClass {
     public void setTempTimeSelection(int x){
         this.tempTimeSelection = x;
     }
+
 
     public void addFolder(Folder x){
         this.folderList.add(x);

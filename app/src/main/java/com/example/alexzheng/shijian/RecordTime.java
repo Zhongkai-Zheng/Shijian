@@ -4,6 +4,7 @@ import android.os.SystemClock;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,9 @@ public class RecordTime extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                long time = SystemClock.elapsedRealtime() - timer.getBase();
+                GlobalClass.getInstance().setTempDuration(time);
+
                 Intent goToNextActivity = new Intent(getApplicationContext(), SaveTimePage.class);
                 startActivity(goToNextActivity);
             }

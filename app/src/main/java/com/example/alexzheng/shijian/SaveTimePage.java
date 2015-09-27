@@ -13,7 +13,7 @@ public class SaveTimePage extends AppCompatActivity {
 
     private EditText nameEditText, folderEditText;
     private Button saveButton, cancelButton;
-    private boolean useNewFolder;
+    private boolean useNewFolder = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class SaveTimePage extends AppCompatActivity {
                 }
 
                 // add time to appropriate folder
-                g.getFolderList().get(index).addTime(new Time(nameEditText.toString(), g.getTempStartTime(), g.getTempEndTime()));
+                g.getFolderList().get(index).addTime(new Time(nameEditText.toString(), g.getTempDuration()));
 
                 Intent goToNextActivity = new Intent(getApplicationContext(), HomeScreen.class);
                 startActivity(goToNextActivity);
