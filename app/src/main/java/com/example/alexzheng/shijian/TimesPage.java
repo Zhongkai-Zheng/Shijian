@@ -74,8 +74,8 @@ public class TimesPage extends ListActivity implements LoaderManager.LoaderCallb
     }
 
     public void setTimeNames(){
-        for(int i = 0; i < GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).size(); i++){
-            timeNames[i] = GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).get(i).getName();
-        }
+//        for(int i = 0; i < GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).size(); i++){
+//            timeNames[i] = GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).get(i).getName();
+//        }
     }
 }

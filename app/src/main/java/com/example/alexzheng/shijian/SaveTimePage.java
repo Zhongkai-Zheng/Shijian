@@ -11,33 +11,44 @@ import android.widget.EditText;
 
 public class SaveTimePage extends AppCompatActivity {
 
-    private EditText timeName, newFolderName;
+    private EditText nameEditText, folderEditText;
     private Button saveButton, cancelButton;
-    private boolean useNewFolder = true;
+    private boolean useNewFolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_time_page);
 
-        timeName = (EditText) findViewById(R.id.time_name);
-        newFolderName = (EditText) findViewById(R.id.time_name);
+        nameEditText = (EditText) findViewById(R.id.name_editText);
+        folderEditText = (EditText) findViewById(R.id.folder_editText);
 
+        setUpButtons();
+    }
+
+    private void setUpButtons() {
         saveButton = (Button) findViewById(R.id.save_button);
-        cancelButton = (Button)findViewById(R.id.cancel_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GlobalClass g = GlobalClass.getInstance();
+                int index;
                 if (useNewFolder == true) {
-                    GlobalClass.getInstance().addFolder(new Folder(newFolderName.toString()));
-                    GlobalClass.getInstance().getFolderList().get(0).addTime(new Time(timeName.toString(), GlobalClass.getInstance().getTempStartTime(), GlobalClass.getInstance().getTempEndTime()));
+                    g.addFolder(new Folder(folderEditText.toString())); // create new folder and add to global class
+                    index = 0; // add new folder to beginning
                 } else {
-                    GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).addTime(new Time(timeName.toString(), GlobalClass.getInstance().getTempStartTime(), GlobalClass.getInstance().getTempEndTime()));
+                    index = g.getTempFolderSelection();
                 }
+
+                // add time to appropriate folder
+                g.getFolderList().get(index).addTime(new Time(nameEditText.toString(), g.getTempStartTime(), g.getTempEndTime()));
+
                 Intent goToNextActivity = new Intent(getApplicationContext(), HomeScreen.class);
                 startActivity(goToNextActivity);
             }
         });
+
+        cancelButton = (Button)findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

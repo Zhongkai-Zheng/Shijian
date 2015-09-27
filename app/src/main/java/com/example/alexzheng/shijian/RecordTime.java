@@ -89,13 +89,13 @@ public class RecordTime extends AppCompatActivity {
             }
 
             timer.start();
-            startButton.setText("Stop");
+            startButton.setText(getString(R.string.stop));
         }
         else {
             // previously was running
             timeWhenStopped = SystemClock.elapsedRealtime();
             timer.stop();
-            startButton.setText("Start");
+            startButton.setText(getString(R.string.start));
         }
 
         isStopped = !isStopped;
@@ -107,8 +107,8 @@ public class RecordTime extends AppCompatActivity {
         isStopped = true;
         timeWhenStopped = 0;
 
-        startButton.setText("Start");
-        timer.setText("00:00:00");
+        startButton.setText(getString(R.string.start));
+        timer.setText(getString(R.string.zero));
     }
 
     @Override
