@@ -65,7 +65,7 @@ public class GlobalClass {
     }
 
     public void setTempDuration(long x){
-        this.tempDuration = x;
+        this.tempDuration = (x - 1);
     }
 
     public void setTempFolderSelection(int x){
@@ -78,6 +78,6 @@ public class GlobalClass {
 
 
     public void addFolder(Folder x){
-        this.folderList.add(x);
+        this.folderList.add(0, x);
     }
 }
