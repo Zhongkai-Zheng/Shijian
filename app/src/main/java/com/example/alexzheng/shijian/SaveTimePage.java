@@ -3,6 +3,7 @@ package com.example.alexzheng.shijian;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,14 +35,15 @@ public class SaveTimePage extends AppCompatActivity {
                 GlobalClass g = GlobalClass.getInstance();
                 int index;
                 if (useNewFolder == true) {
-                    g.addFolder(new Folder(folderEditText.toString())); // create new folder and add to global class
+                    g.addFolder(new Folder(folderEditText.getText().toString())); // create new folder and add to global class
                     index = 0; // add new folder to beginning
                 } else {
+                    Log.d("test2", "false");
                     index = g.getTempFolderSelection();
                 }
 
                 // add time to appropriate folder
-                g.getFolderList().get(index).addTime(new Time(nameEditText.toString(), g.getTempDuration()));
+                g.getFolderList().get(index).addTime(new Time(nameEditText.getText().toString(), g.getTempDuration()));
 
                 Intent goToNextActivity = new Intent(getApplicationContext(), HomeScreen.class);
                 startActivity(goToNextActivity);
