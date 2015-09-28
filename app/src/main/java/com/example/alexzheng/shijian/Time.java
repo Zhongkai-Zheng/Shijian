@@ -9,7 +9,7 @@ public class Time {
     private int[] endTime;
 
     private long duration;
-    private int hour, minute, second;
+    private String durationString;
 
 //    public Time(String timeName, int[] startTime, int[] endTime){
 //        this.name = timeName;
@@ -22,6 +22,7 @@ public class Time {
     public Time(String timeName, long duration) {
         this.name = timeName;
         this.duration = duration;
+        formatDuration();
     }
 
     public int[] getStartTime(){
@@ -40,15 +41,17 @@ public class Time {
         return duration;
     }
 
-   public void printTime() {
-//        int h = (int) (duration / 3600000);
-//        int m = (int) (duration - h * 3600000) / 60000;
-//        int s = (int) (duration - h * 3600000 - m * 60000) / 1000;
-//        String hh = h < 10 ? "0" + h : h + "";
-//        String mm = m < 10 ? "0" + m : m + "";
-//        String ss = s < 10 ? "0" + s : s + "";
-//        Log.d("time", hh + ":" + mm + ":" + ss);
+    public String getDurationString() {
+        return durationString;
+    }
 
-       Log.d("time2", duration+"");
+   public void formatDuration() {
+        int h = (int) (duration / 3600000);
+        int m = (int) (duration - h * 3600000) / 60000;
+        int s = (int) (duration - h * 3600000 - m * 60000) / 1000;
+        String hh = h < 10 ? "0" + h : h + "";
+        String mm = m < 10 ? "0" + m : m + "";
+        String ss = s < 10 ? "0" + s : s + "";
+        durationString = hh + ":" + mm + ":" + ss;
     }
 }

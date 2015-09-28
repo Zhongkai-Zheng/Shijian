@@ -13,20 +13,28 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class TimesPage extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+import java.util.ArrayList;
+
+public class TimesPage extends ListActivity {
 
     private ListView timesList;
     private String[] timeNames;
+    private ArrayAdapter<String> adapter;
+    private GlobalClass g;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        timesList = (ListView)findViewById(R.id.time_list);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_times_page);
+
+        g = GlobalClass.getInstance();
         setTimeNames();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, timeNames);
-        timesList.setAdapter(adapter);
+
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, timeNames);
+        setListAdapter(adapter);
+
+        timesList = getListView();
     }
 
     @Override
@@ -51,31 +59,33 @@ public class TimesPage extends ListActivity implements LoaderManager.LoaderCallb
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
+//    @Override
+//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//        return null;
+//    }
+//
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//
+//    }
+//
+//    @Override
+//    public void onLoaderReset(Loader<Cursor> loader) {
+//
+//    }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        GlobalClass.getInstance().setTempFolderSelection((int) id);
-        Intent goToNextActivity = new Intent(getApplicationContext(), SingleTimePage.class);
-        startActivity(goToNextActivity);
-        // Do something when a list item is clicked
-    }
+//    public void onListItemClick(ListView l, View v, int position, long id) {
+//        GlobalClass.getInstance().setTempFolderSelection((int) id);
+//        Intent goToNextActivity = new Intent(getApplicationContext(), SingleTimePage.class);
+//        startActivity(goToNextActivity);
+//        // Do something when a list item is clicked
+//    }
 
     public void setTimeNames(){
-//        for(int i = 0; i < GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).size(); i++){
-//            timeNames[i] = GlobalClass.getInstance().getFolderList().get(GlobalClass.getInstance().getTempFolderSelection()).get(i).getName();
-//        }
+        ArrayList<Time> times = g.getFolderList().get(g.getTempFolderSelection()).getTimeArray();
+        timeNames = new String[times.size()];
+        for(int i = 0; i < times.size(); i++){
+            timeNames[i] = times.get(i).getName() + ": " + times.get(i).getDurationString();
+        }
     }
 }

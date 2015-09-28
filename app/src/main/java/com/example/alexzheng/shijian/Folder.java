@@ -27,8 +27,8 @@ public class Folder {
         return this.name;
     }
 
-    public Time getTime() {
-        return timeArray.get(timeArray.size() - 1);
+    public ArrayList<Time> getTimeArray() {
+        return timeArray;
     }
 
     public void setName(String x){

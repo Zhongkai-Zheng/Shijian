@@ -7,26 +7,42 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class HistoryPage extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class HistoryPage extends ListActivity {
 
     private ListView listOfFolders;
     private static String[] folderNames;
+    private ArrayAdapter<String> adapter;
+    private String[] names = {"a", "b", "c"};
+    private GlobalClass g;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_page);
-        listOfFolders = (ListView)findViewById(R.id.list_of_folders);
-        this.setFolderNames();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, folderNames);
-        listOfFolders.setAdapter(adapter);
+
+        g = GlobalClass.getInstance();
+        setFolderNames();
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, folderNames);
+        setListAdapter(adapter);
+
+        listOfFolders = getListView();
+        listOfFolders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int position, long arg3) {
+                g.setTempFolderSelection(position);
+                Intent goToNextActivity = new Intent(getApplicationContext(), TimesPage.class);
+                startActivity(goToNextActivity);
+            }
+        });
     }
 
     @Override
@@ -51,31 +67,26 @@ public class HistoryPage extends ListActivity implements LoaderManager.LoaderCal
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        GlobalClass.getInstance().setTempFolderSelection((int) id);
-        Intent goToNextActivity = new Intent(getApplicationContext(), TimesPage.class);
-        startActivity(goToNextActivity);
-        // Do something when a list item is clicked
-    }
+//    @Override
+//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//        return null;
+//    }
+//
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//
+//    }
+//
+//    @Override
+//    public void onLoaderReset(Loader<Cursor> loader) {
+//
+//    }
 
     public void setFolderNames(){
-        for(int i = 0; i < GlobalClass.getInstance().getFolderList().size(); i++){
-            folderNames[i] = GlobalClass.getInstance().getFolderList().get(i).getName();
+        folderNames = new String[g.getFolderList().size()];
+        for(int i = 0; i < g.getFolderList().size(); i++){
+            folderNames[i] = g.getFolderList().get(i).getName();
+            Log.d("name", GlobalClass.getInstance().getFolderList().get(i).getName());
         }
     }
 }
