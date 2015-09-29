@@ -17,6 +17,8 @@
     <string name="title">Title</string>
     <string name="folder">Folder</string>
     <string name="cancel">Cancel</string>
+    <string name="new_folder">Create New Folder</string>
+    <string name="existing_folder">Select Existing Folder</string>
 
     <string name="title_activity_history_page">HistoryPage</string>
     <string name="title_activity_settings_page">SettingsPage</string>

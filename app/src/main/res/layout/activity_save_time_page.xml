@@ -36,12 +36,25 @@
             android:text="@string/folder"
             android:id="@+id/folder_textView" />
 
-        <EditText
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/folder_editText" />
+            android:orientation="vertical">
 
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/new_folder"
+                android:id="@+id/folder_editText" />
+
+            <Spinner
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/existing_folder"
+                android:id="@+id/folder_spinner" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

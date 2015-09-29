@@ -1,11 +1,7 @@
 package com.example.alexzheng.shijian;
 
 import android.app.ListActivity;
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,7 +13,7 @@ import android.widget.ListView;
 
 public class HistoryPage extends ListActivity {
 
-    private ListView listOfFolders;
+    private ListView folderListView;
     private static String[] folderNames;
     private ArrayAdapter<String> adapter;
     private String[] names = {"a", "b", "c"};
@@ -34,8 +30,8 @@ public class HistoryPage extends ListActivity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, folderNames);
         setListAdapter(adapter);
 
-        listOfFolders = getListView();
-        listOfFolders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        folderListView = getListView();
+        folderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long arg3) {
                 g.setTempFolderSelection(position);
@@ -66,21 +62,6 @@ public class HistoryPage extends ListActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        return null;
-//    }
-//
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<Cursor> loader) {
-//
-//    }
 
     public void setFolderNames(){
         folderNames = new String[g.getFolderList().size()];
