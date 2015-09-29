@@ -11,11 +11,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 
+import java.util.Calendar;
+
 public class RecordTime extends AppCompatActivity {
 
     private Button startButton, resetButton, saveButton;
     private Chronometer timer;
-
+    Calendar c;
+    private boolean started;
     private boolean isStopped; // true if timer stopped, false if timer going
 
     // timeWhenStopped stuff from http://stackoverflow.com/questions/5740516/chronometer-doesnt-stop-in-android
@@ -28,6 +31,8 @@ public class RecordTime extends AppCompatActivity {
 
         setUpButtons();
         setUpChronometer();
+        c = Calendar.getInstance();
+        started = false;
     }
 
     private void setUpButtons() {
@@ -37,6 +42,26 @@ public class RecordTime extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(started == false) {
+                    int seconds = c.get(Calendar.SECOND);
+                    int hours = c.get(Calendar.HOUR_OF_DAY);
+                    int minutes = c.get(Calendar.MINUTE);
+                    int year = c.get(Calendar.YEAR);
+                    int month = c.get(Calendar.MONTH);
+                    int day = c.get(Calendar.DAY_OF_MONTH);
+                    int[] time = new int[]{year, month, day, hours, minutes, seconds};
+                    GlobalClass.getInstance().setTempStartTime(time);
+                }
+                if(started == true){
+                    int seconds = c.get(Calendar.SECOND);
+                    int hours = c.get(Calendar.HOUR_OF_DAY);
+                    int minutes = c.get(Calendar.MINUTE);
+                    int year = c.get(Calendar.YEAR);
+                    int month = c.get(Calendar.MONTH);
+                    int day = c.get(Calendar.DAY_OF_MONTH);
+                    int[] time = new int[]{year, month, day, hours, minutes, seconds};
+                    GlobalClass.getInstance().setTempEndTime(time);
+                }
                 changeTimerState();
             }
         });

@@ -7,7 +7,6 @@ public class Time {
     private String name;
     private int[] startTime;
     private int[] endTime;
-
     private long duration;
     private String durationString;
 
@@ -43,6 +42,14 @@ public class Time {
 
     public String getDurationString() {
         return durationString;
+    }
+
+    public void setStartTime(int[] x){
+        this.startTime = x;
+    }
+
+    public void setEndTime(int[] x){
+        this.endTime = x;
     }
 
    public void formatDuration() {

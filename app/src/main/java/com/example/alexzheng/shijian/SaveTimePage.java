@@ -43,7 +43,10 @@ public class SaveTimePage extends AppCompatActivity {
                 }
 
                 // add time to appropriate folder
-                g.getFolderList().get(index).addTime(new Time(nameEditText.getText().toString(), g.getTempDuration()));
+                Time time = new Time(nameEditText.getText().toString(), g.getTempDuration());
+                time.setStartTime(GlobalClass.getInstance().getTempStartTime());
+                time.setEndTime(GlobalClass.getInstance().getTempEndTime());
+                g.getFolderList().get(index).addTime(time);
 
                 Intent goToNextActivity = new Intent(getApplicationContext(), HomeScreen.class);
                 startActivity(goToNextActivity);
