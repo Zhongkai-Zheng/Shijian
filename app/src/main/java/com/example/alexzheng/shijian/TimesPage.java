@@ -57,7 +57,23 @@ public class TimesPage extends ListActivity {
         ArrayList<Time> times = g.getFolderList().get(g.getTempFolderSelection()).getTimeArray();
         timeNames = new String[times.size()];
         for(int i = 0; i < times.size(); i++){
-            timeNames[i] = times.get(i).getName() + ": " + times.get(i).getDurationString();
+            timeNames[i] = times.get(i).getName() + ": " + times.get(i).getDurationString() + " start time: " +
+                    arrayToString(times.get(i).getStartTime()) + " end time: " + arrayToString(times.get(i).getEndTime());
         }
+    }
+
+    public String arrayToString(int[] x){
+        String result = "";
+        for(int i = 0; i < 2; i++){
+            result += Integer.toString(x[i]);
+            result += ".";
+        }
+        result = result.substring(0, result.length()-1);
+        result += " ";
+        for(int i = 3; i < 5; i++){
+            result += Integer.toString(x[i]);
+            result += ":";
+        }
+        return result;
     }
 }
