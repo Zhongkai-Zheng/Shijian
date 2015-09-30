@@ -1,6 +1,7 @@
 package com.example.alexzheng.shijian;
 
 import android.provider.Settings;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -53,6 +54,15 @@ public class GlobalClass {
 
     public int getTempTimeSelection(){
         return this.tempTimeSelection;
+    }
+
+    public String[] getFolderNames(){
+        String[] folderNames = new String[getFolderList().size()];
+        for(int i = 0; i < getFolderList().size(); i++){
+            folderNames[i] = getFolderList().get(i).getName();
+        }
+
+        return folderNames;
     }
 
 

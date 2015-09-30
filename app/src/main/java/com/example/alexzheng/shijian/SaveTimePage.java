@@ -32,7 +32,8 @@ public class SaveTimePage extends AppCompatActivity {
 
     private void setUpSpinner() {
         folderSpinner = (Spinner) findViewById(R.id.folder_spinner);
-
+        String[] names = GlobalClass.getInstance().getFolderNames();
+        
     }
 
     private void setUpButtons() {
