@@ -1,5 +1,6 @@
 package com.example.alexzheng.shijian;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,12 +8,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class SaveTimePage extends AppCompatActivity {
+public class SaveTimePage extends Activity {
 
     private EditText nameEditText, folderEditText;
     private Spinner folderSpinner;
@@ -33,7 +35,18 @@ public class SaveTimePage extends AppCompatActivity {
     private void setUpSpinner() {
         folderSpinner = (Spinner) findViewById(R.id.folder_spinner);
         String[] names = GlobalClass.getInstance().getFolderNames();
-        
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, names);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        adapter.insert("Select Existing Folder",0);
+//        adapter.notifyDataSetChanged();
+
+        folderSpinner.setAdapter(
+                new NothingSelectedSpinnerAdapter(
+                        adapter,
+                        R.layout.contact_spinner_row_nothing_selected, // Optional
+                        this));
     }
 
     private void setUpButtons() {
