@@ -78,7 +78,6 @@ public class HomeScreen extends AppCompatActivity {
             public void onClick(View v) {
                 long time = SystemClock.elapsedRealtime() - timer.getBase();
                 GlobalClass.getInstance().setTempDuration(time);
-
                 Intent goToNextActivity = new Intent(getApplicationContext(), SaveTimePage.class);
                 startActivity(goToNextActivity);
             }

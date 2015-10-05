@@ -16,6 +16,7 @@ public class GlobalClass {
 
     private static int tempFolderSelection;
     private static int tempTimeSelection;
+    private static boolean saveMode;
 
     public GlobalClass(){
         folderList = new ArrayList<Folder>();
@@ -65,6 +66,10 @@ public class GlobalClass {
         return folderNames;
     }
 
+    public boolean getSaveMode(){
+        return this.saveMode;
+    }
+
 
     public void setTempStartTime(int[] x){
         this.tempStartTime = x;
@@ -90,4 +95,9 @@ public class GlobalClass {
     public void addFolder(Folder x){
         this.folderList.add(0, x);
     }
+
+    public void setSaveMode(boolean x){
+        this.saveMode = x;
+    }
+
 }
