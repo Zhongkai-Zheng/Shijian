@@ -87,7 +87,6 @@ public class HomeScreen extends AppCompatActivity {
     private void setUpChronometer() {
         timer = (Chronometer) findViewById(R.id.time_Chronometer);
         timeWhenStopped = 0;
-        timer.setBase(GlobalClass.getInstance().getTempDuration());
 
         // http://stackoverflow.com/questions/4152569/how-to-change-format-of-chronometer
         timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
