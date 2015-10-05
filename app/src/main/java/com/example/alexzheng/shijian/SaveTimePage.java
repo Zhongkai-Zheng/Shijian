@@ -39,8 +39,6 @@ public class SaveTimePage extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, names);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        adapter.insert("Select Existing Folder",0);
-//        adapter.notifyDataSetChanged();
 
         folderSpinner.setAdapter(
                 new NothingSelectedSpinnerAdapter(
@@ -57,9 +55,9 @@ public class SaveTimePage extends Activity {
                 GlobalClass g = GlobalClass.getInstance();
                 int index = 0;
 
-                boolean useNewFolder = folderEditText.getText() != null;
+                boolean useNewFolder = folderEditText.getText().toString().trim().length() != 0;
                 boolean useOldFolder = folderSpinner.getSelectedItem() != null;
-                if ((useNewFolder && useOldFolder) || (!useNewFolder & !useOldFolder)) {
+                if ((useNewFolder && useOldFolder) || (!useNewFolder && !useOldFolder)) {
                     // user inputted something in both text box and spinner or did not input anything
                     Toast errorToast = Toast.makeText(getApplicationContext(),
                             "Please make sure you filled in exactly one of the folder options.", Toast.LENGTH_SHORT);
@@ -73,7 +71,7 @@ public class SaveTimePage extends Activity {
                     } else {
                         // set index to selected item on spinner
                         g.setTempFolderSelection(folderSpinner.getSelectedItemPosition());
-                        index = g.getTempFolderSelection();
+                        index = g.getTempFolderSelection() - 1;
                     }
 
                     // add time to appropriate folder

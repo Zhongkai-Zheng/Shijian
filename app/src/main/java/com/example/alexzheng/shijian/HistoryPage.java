@@ -16,7 +16,6 @@ public class HistoryPage extends ListActivity {
     private ListView folderListView;
     private static String[] folderNames;
     private ArrayAdapter<String> adapter;
-    private String[] names;
     private GlobalClass g;
 
     @Override
@@ -25,7 +24,7 @@ public class HistoryPage extends ListActivity {
         setContentView(R.layout.activity_history_page);
 
         g = GlobalClass.getInstance();
-        names = g.getFolderNames();
+        folderNames = g.getFolderNames();
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, folderNames);
         setListAdapter(adapter);

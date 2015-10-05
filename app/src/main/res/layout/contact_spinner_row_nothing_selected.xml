@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--TAKEN ENTIRELY FROM
+http://stackoverflow.com/questions/867518/how-to-make-an-android-spinner-with-initial-text-select-one/12221309#12221309-->
+
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     style="?android:attr/spinnerItemStyle"
@@ -8,4 +11,4 @@
     android:ellipsize="marquee"
     android:textSize="18sp"
     android:textColor="#808080"
-    android:text="[Select a Planet...]" />
+    android:text="@string/select_folder" />

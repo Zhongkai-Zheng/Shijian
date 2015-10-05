@@ -1,5 +1,8 @@
 package com.example.alexzheng.shijian;
 
+// TAKEN ENTIRELY FROM
+// http://stackoverflow.com/questions/867518/how-to-make-an-android-spinner-with-initial-text-select-one/12221309#12221309
+
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
@@ -104,8 +107,7 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
 
     @Override
     public int getCount() {
-        int count = adapter.getCount();
-        return count == 0 ? 0 : count + EXTRA;
+        return adapter.getCount() + EXTRA;
     }
 
     @Override
