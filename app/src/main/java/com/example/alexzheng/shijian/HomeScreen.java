@@ -21,7 +21,7 @@ public class HomeScreen extends AppCompatActivity {
     private boolean isStopped; // true if timer stopped, false if timer going
 
     // timeWhenStopped stuff from http://stackoverflow.com/questions/5740516/chronometer-doesnt-stop-in-android
-    private long timeWhenStopped;
+    private long initialTime, timeWhenStopped;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +87,8 @@ public class HomeScreen extends AppCompatActivity {
 
     private void setUpChronometer() {
         timer = (Chronometer) findViewById(R.id.time_Chronometer);
-        timeWhenStopped = 0;
+        initialTime = GlobalClass.getInstance().getTempDuration();
+        timeWhenStopped = initialTime;
 
         // http://stackoverflow.com/questions/4152569/how-to-change-format-of-chronometer
         timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
@@ -108,7 +109,7 @@ public class HomeScreen extends AppCompatActivity {
     private void changeTimerState() {
         if(isStopped) {
             // previously was stopped
-            if (timeWhenStopped == 0) {
+            if (timeWhenStopped == initialTime) {
                 timer.setBase(SystemClock.elapsedRealtime());
             }
             else {
