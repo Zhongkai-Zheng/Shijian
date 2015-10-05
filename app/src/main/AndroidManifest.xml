@@ -25,10 +25,6 @@
             android:label="@string/title_activity_history_page" >
         </activity>
         <activity
-            android:name=".SettingsPage"
-            android:label="@string/title_activity_settings_page" >
-        </activity>
-        <activity
             android:name=".TimesPage"
             android:label="@string/title_activity_times_page" >
         </activity>

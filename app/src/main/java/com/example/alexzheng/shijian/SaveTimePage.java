@@ -48,19 +48,26 @@ public class SaveTimePage extends Activity {
     }
 
     private void setUpButtons() {
+        final GlobalClass g = GlobalClass.getInstance();
         saveButton = (Button) findViewById(R.id.save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GlobalClass g = GlobalClass.getInstance();
                 int index = 0;
 
                 boolean useNewFolder = folderEditText.getText().toString().trim().length() != 0;
                 boolean useOldFolder = folderSpinner.getSelectedItem() != null;
+                boolean titleBlank = nameEditText.getText().toString().trim().length() == 0;
+
                 if ((useNewFolder && useOldFolder) || (!useNewFolder && !useOldFolder)) {
                     // user inputted something in both text box and spinner or did not input anything
                     Toast errorToast = Toast.makeText(getApplicationContext(),
                             "Please make sure you filled in exactly one of the folder options.", Toast.LENGTH_SHORT);
+                    errorToast.show();
+                }
+                else if (titleBlank) {
+                    Toast errorToast = Toast.makeText(getApplicationContext(),
+                            "Please enter a title.", Toast.LENGTH_SHORT);
                     errorToast.show();
                 }
                 else {
@@ -75,6 +82,7 @@ public class SaveTimePage extends Activity {
                     }
 
                     // add time to appropriate folder
+
                     Time time = new Time(nameEditText.getText().toString(), g.getTempDuration());
                     time.setStartTime(g.getTempStartTime());
                     time.setEndTime(g.getTempEndTime());
