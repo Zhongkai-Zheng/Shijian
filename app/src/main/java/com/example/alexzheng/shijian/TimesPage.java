@@ -58,22 +58,23 @@ public class TimesPage extends ListActivity {
         timeNames = new String[times.size()];
         for(int i = 0; i < times.size(); i++){
             timeNames[i] = times.get(i).getName() + ": " + times.get(i).getDurationString() + " start time: " +
-                    arrayToString(times.get(i).getStartTime()) + " end time: " + arrayToString(times.get(i).getEndTime());
+                    arrayToString(times.get(i).getStartTime());
         }
     }
 
     public String arrayToString(int[] x){
         String result = "";
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 3; i++){
             result += Integer.toString(x[i]);
             result += ".";
         }
         result = result.substring(0, result.length()-1);
         result += " ";
-        for(int i = 3; i < 5; i++){
+        for(int i = 3; i < 6; i++){
             result += Integer.toString(x[i]);
             result += ":";
         }
+        result = result.substring(0, result.length()-1);
         return result;
     }
 }
