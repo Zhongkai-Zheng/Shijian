@@ -85,6 +85,25 @@ public class TimesPage extends ListActivity {
         return builder.create();
     }
 
+    public Dialog onCreateMainDialog(Bundle savedInstanceState) {
+        // Use the Builder class for convenient dialog construction
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("What would you like to do?")
+                .setPositiveButton("", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        g.removeFolder(g.getTempFolderSelection());
+                        Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
+                        startActivity(goToNextActivity);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+
+        // Create the AlertDialog object and return it
+        return builder.create();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
