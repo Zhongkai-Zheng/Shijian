@@ -34,4 +34,8 @@ public class Folder {
     public void setName(String x){
         this.name = x;
     }
+
+    public void removeTime(int x){
+        this.timeArray.remove(x);
+    }
 }

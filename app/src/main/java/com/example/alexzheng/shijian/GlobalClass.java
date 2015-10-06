@@ -66,6 +66,10 @@ public class GlobalClass {
         return folderNames;
     }
 
+    public Folder getFolder(int x){
+        return this.getFolderList().get(x);
+    }
+
     public boolean getSaveMode(){
         return this.saveMode;
     }
@@ -98,6 +102,10 @@ public class GlobalClass {
 
     public void setSaveMode(boolean x){
         this.saveMode = x;
+    }
+
+    public void removeFolder(int x){
+        folderList.remove(x);
     }
 
 }
