@@ -81,6 +81,10 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // set tempDuration and open save page
+                if (timeWhenStopped == 0) {
+                    timer.setBase(SystemClock.elapsedRealtime());
+                    timer.setText(formatTime());
+                }
 
                 long time = initialTime + SystemClock.elapsedRealtime() - timer.getBase();
                 GlobalClass.getInstance().setTempDuration(time);
