@@ -38,4 +38,7 @@ public class Folder {
     public void removeTime(int x){
         this.timeArray.remove(x);
     }
+    public Time getTime(int x){
+        return this.timeArray.get(x);
+    }
 }

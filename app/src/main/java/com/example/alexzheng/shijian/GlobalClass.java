@@ -9,6 +9,7 @@ public class GlobalClass {
 
     public static GlobalClass globalClass = new GlobalClass();
     public static ArrayList<Folder> folderList;
+    private static int onEditMode = 0;
 
     private static int[] tempStartTime;
     private static int[] tempEndTime;
@@ -107,5 +108,10 @@ public class GlobalClass {
     public void removeFolder(int x){
         folderList.remove(x);
     }
-
+    public void setOnEditMode(int x){
+        this.onEditMode = x;
+    }
+    public int getOnEditMode(){
+        return this.onEditMode;
+    }
 }

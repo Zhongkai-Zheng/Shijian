@@ -45,7 +45,7 @@ public class HistoryPage extends ListActivity {
         folderListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> adapterView, View v, int position, long arg3) {
                 g.setTempFolderSelection(position);
-                onCreateDialog(savedInstanceState).show();
+                onCreateMainDialog(savedInstanceState).show();
                 return true;
             }
         });
@@ -56,6 +56,31 @@ public class HistoryPage extends ListActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_history_page, menu);
         return true;
+    }
+
+    public Dialog onCreateMainDialog(final Bundle savedInstanceState) {
+        // Use the Builder class for convenient dialog construction
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("What would you like to do?")
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        onCreateDialog(savedInstanceState).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        builder.setNeutralButton("Edit", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                g.setOnEditMode(2);
+                Intent goToNextActivity = new Intent(getApplicationContext(), SaveTimePage.class);
+                startActivity(goToNextActivity);
+            }
+        });
+
+        // Create the AlertDialog object and return it
+        return builder.create();
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {

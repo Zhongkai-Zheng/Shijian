@@ -38,7 +38,7 @@ public class TimesPage extends ListActivity {
         timesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> adapterView, View v, int position, long arg3) {
                 g.setTempTimeSelection(position);
-                onCreateDialog(savedInstanceState).show();
+                onCreateMainDialog(savedInstanceState).show();
                 return true;
             }
         });
@@ -85,21 +85,28 @@ public class TimesPage extends ListActivity {
         return builder.create();
     }
 
-    public Dialog onCreateMainDialog(Bundle savedInstanceState) {
+    public Dialog onCreateMainDialog(final Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("What would you like to do?")
-                .setPositiveButton("", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        g.removeFolder(g.getTempFolderSelection());
-                        Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
-                        startActivity(goToNextActivity);
+                        onCreateDialog(savedInstanceState).show();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
+        builder.setNeutralButton("Edit", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                g.setOnEditMode(1);
+                g.setTempStartTime(g.getFolder(g.getTempFolderSelection()).getTime(g.getTempTimeSelection()).getStartTime());
+                g.setTempDuration(g.getFolder(g.getTempFolderSelection()).getTime(g.getTempTimeSelection()).getDuration());
+                Intent goToNextActivity = new Intent(getApplicationContext(), SaveTimePage.class);
+                startActivity(goToNextActivity);
+            }
+        });
 
         // Create the AlertDialog object and return it
         return builder.create();
