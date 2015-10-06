@@ -32,7 +32,6 @@ public class SaveTimePage extends Activity {
         if(g.getOnEditMode() == 1){
             g.getFolder(g.getTempFolderSelection()).removeTime(g.getTempTimeSelection());
             //reset to non-edit mode
-            g.setOnEditMode(0);
         }
 
         nameEditText = (EditText) findViewById(R.id.name_editText);
@@ -101,10 +100,15 @@ public class SaveTimePage extends Activity {
                         Time time = new Time(nameEditText.getText().toString(), g.getTempDuration());
                         time.setStartTime(g.getTempStartTime());
                         g.getFolderList().get(index).addTime(time);
-
-                        Intent goToNextActivity = new Intent(getApplicationContext(), HomeScreen.class);
-                        startActivity(goToNextActivity);
-
+                        if(g.getOnEditMode() == 0) {
+                            Intent goToNextActivity = new Intent(getApplicationContext(), HomeScreen.class);
+                            startActivity(goToNextActivity);
+                        }
+                        if(g.getOnEditMode() == 1){
+                            g.setOnEditMode(0);
+                            Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
+                            startActivity(goToNextActivity);
+                        }
                         g.setTempDuration(0); // reset tempDuration
                     }
                 }
