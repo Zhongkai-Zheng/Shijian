@@ -28,8 +28,10 @@ public class SaveTimePage extends Activity {
 
         g = GlobalClass.getInstance();
 
+        //if an existing time is being editted, delete the original time.
         if(g.getOnEditMode() == 1){
             g.getFolder(g.getTempFolderSelection()).removeTime(g.getTempTimeSelection());
+            //reset to non-edit mode
             g.setOnEditMode(0);
         }
 
@@ -60,8 +62,11 @@ public class SaveTimePage extends Activity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //if an existing folder is being editted, only change the folder name
                 if (g.getOnEditMode() == 2) {
                     g.getFolder(g.getTempFolderSelection()).setName(folderEditText.getText().toString());
+                    g.setOnEditMode(0);
+                    //reset to non-edit mode
                     Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
                     startActivity(goToNextActivity);
                 } else {

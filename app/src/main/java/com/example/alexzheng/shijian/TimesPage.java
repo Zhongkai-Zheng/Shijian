@@ -84,8 +84,8 @@ public class TimesPage extends ListActivity {
         });
     }
 
+    //AlertDialog for deleting times
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_confirmation)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -99,12 +99,11 @@ public class TimesPage extends ListActivity {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
-        // Create the AlertDialog object and return it
         return builder.create();
     }
 
+    //AlertDialog for deleting empty folder
     public Dialog onCreateDialogTwo(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.empty_delete_confirmation)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -118,12 +117,11 @@ public class TimesPage extends ListActivity {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
-        // Create the AlertDialog object and return it
         return builder.create();
     }
 
+    //AlertDialog for long click on a single time selection
     public Dialog onCreateMainDialog(final Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.like_to_do)
                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {

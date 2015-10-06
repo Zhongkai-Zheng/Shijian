@@ -89,9 +89,9 @@ public class HistoryPage extends ListActivity {
         return true;
     }
 
-    // CITE THIS
+    // Dialog code found in android api
+    // Alert Dialog for deleting selected folder
     public Dialog onCreateMainDialog(final Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.like_to_do)
                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
@@ -110,13 +110,11 @@ public class HistoryPage extends ListActivity {
                 startActivity(goToNextActivity);
             }
         });
-
-        // Create the AlertDialog object and return it
         return builder.create();
     }
 
+    //Alert Dialog for long click on selected folder
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_confirmation)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -130,7 +128,6 @@ public class HistoryPage extends ListActivity {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
-        // Create the AlertDialog object and return it
         return builder.create();
     }
 
