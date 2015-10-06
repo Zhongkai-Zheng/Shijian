@@ -6,19 +6,31 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class TimesPage extends ListActivity {
 
+    private TextView timeTitleTextView;
+    private Button sortButton;
     private ListView timesListView;
-    private String[] timeNames;
+
+    private boolean isSortName; // true if sorted by name, false if sorted by most recent
+    private ArrayList<String> timeNames;
     private ArrayAdapter<String> adapter;
     private GlobalClass g;
 
@@ -28,10 +40,16 @@ public class TimesPage extends ListActivity {
         setContentView(R.layout.activity_times_page);
 
         g = GlobalClass.getInstance();
+        timeNames = new ArrayList<String>();
         setTimeNames();
+        isSortName = false; // default sort by most recent
+
+        // set title of page to Folder Name + "Times"
+        timeTitleTextView = (TextView) findViewById(R.id.time_title_textView);
+        timeTitleTextView.setText(g.getFolder(g.getTempFolderSelection()).getName() + " Times");
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, timeNames);
+                android.R.layout.simple_list_item_1, timeNames); // default adapter containing all timeNames
         setListAdapter(adapter);
 
         timesListView = getListView();
@@ -42,22 +60,41 @@ public class TimesPage extends ListActivity {
                 return true;
             }
         });
-        if(timeNames.length == 0){
+        if(timeNames.size() == 0){
             onCreateDialogTwo(savedInstanceState).show();
         }
+
+        sortButton = (Button) findViewById(R.id.sort_button);
+        sortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSortName) {
+                    // already sorted alphabetically, reorder by most recent
+                    setTimeNames();
+                    sortButton.setText(R.string.sort_name);
+                } else {
+                    // already sorted by most recent, reorder alphabetically
+                    Collections.sort(timeNames);
+                    sortButton.setText(R.string.sort_recent);
+                }
+
+                adapter.notifyDataSetChanged();
+                isSortName = !isSortName;
+            }
+        });
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to delete this?")
-                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        g.getFolder(g.getTempFolderSelection()).removeTime(g.getTempTimeSelection());
-                        finish();
-                        startActivity(getIntent());
-                    }
-                })
+        builder.setMessage(R.string.delete_confirmation)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                g.getFolder(g.getTempFolderSelection()).removeTime(g.getTempTimeSelection());
+                finish();
+                startActivity(getIntent());
+            }
+        })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
@@ -69,8 +106,8 @@ public class TimesPage extends ListActivity {
     public Dialog onCreateDialogTwo(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("This folder is empty, would you like to delete it?")
-                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.empty_delete_confirmation)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         g.removeFolder(g.getTempFolderSelection());
                         Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
@@ -88,8 +125,8 @@ public class TimesPage extends ListActivity {
     public Dialog onCreateMainDialog(final Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("What would you like to do?")
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.like_to_do)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         onCreateDialog(savedInstanceState).show();
                     }
@@ -98,7 +135,7 @@ public class TimesPage extends ListActivity {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
-        builder.setNeutralButton("Edit", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(R.string.edit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 g.setOnEditMode(1);
                 g.setTempStartTime(g.getFolder(g.getTempFolderSelection()).getTime(g.getTempTimeSelection()).getStartTime());
@@ -134,23 +171,26 @@ public class TimesPage extends ListActivity {
     }
 
     public void setTimeNames(){
+        // sets String displays for the times
         ArrayList<Time> times = g.getFolderList().get(g.getTempFolderSelection()).getTimeArray();
-        timeNames = new String[times.size()];
+        timeNames.clear();
         for(int i = 0; i < times.size(); i++){
-            timeNames[i] = times.get(i).getName() + ": " + times.get(i).getDurationString() + " start time: " +
-                    arrayToString(times.get(i).getStartTime());
+            timeNames.add(times.get(i).getName() + ": " + times.get(i).getDurationString() + "\n" +
+                    arrayToString(times.get(i).getStartTime()));
         }
     }
 
     public String arrayToString(int[] x){
         String result = "";
         for(int i = 0; i < 3; i++){
+            // year.month.day
             result += Integer.toString(x[i]);
             result += ".";
         }
         result = result.substring(0, result.length()-1);
         result += " ";
         for(int i = 3; i < 6; i++){
+            // hour:minute:second
             result += Integer.toString(x[i]);
             result += ":";
         }

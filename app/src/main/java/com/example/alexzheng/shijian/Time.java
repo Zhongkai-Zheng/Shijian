@@ -1,22 +1,11 @@
 package com.example.alexzheng.shijian;
 
-import android.util.Log;
-
 public class Time {
 
     private String name;
     private int[] startTime;
-    private int[] endTime;
     private long duration;
     private String durationString;
-
-//    public Time(String timeName, int[] startTime, int[] endTime){
-//        this.name = timeName;
-//        this.startTime = startTime;
-//        this.endTime = endTime;
-//
-//        this.duration = new int[3];
-//    }
 
     public Time(String timeName, long duration) {
         this.name = timeName;
@@ -26,10 +15,6 @@ public class Time {
 
     public int[] getStartTime(){
         return this.startTime;
-    }
-
-    public int[] getEndTime(){
-        return this.endTime;
     }
 
     public String getName(){
@@ -46,10 +31,6 @@ public class Time {
 
     public void setStartTime(int[] x){
         this.startTime = x;
-    }
-
-    public void setEndTime(int[] x){
-        this.endTime = x;
     }
 
    public void formatDuration() {

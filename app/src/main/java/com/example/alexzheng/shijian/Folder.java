@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Folder {
 
-    private ArrayList<Time> timeArray;
+    private ArrayList<Time> timeArray; // contains all the times in the folder
     private String name;
 
     public Folder(String folderName){
@@ -14,10 +14,6 @@ public class Folder {
     }
 
     // getters and setters
-
-    public ArrayList<Time> getArrayList(){
-        return this.timeArray;
-    }
 
     public void addTime(Time time){
         this.timeArray.add(time);

@@ -12,13 +12,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class HistoryPage extends ListActivity {
 
+    private Button sortButton;
     private ListView folderListView;
-    private static String[] folderNames;
+
+    private boolean isSortName; // true if sorted by name, false if sorted by most recent
+    private ArrayList<String> folderNames;
     private ArrayAdapter<String> adapter;
     private GlobalClass g;
 
@@ -28,7 +37,9 @@ public class HistoryPage extends ListActivity {
         setContentView(R.layout.activity_history_page);
 
         g = GlobalClass.getInstance();
-        folderNames = g.getFolderNames();
+        folderNames = new ArrayList<String>();
+        setFolderNames();
+        isSortName = false;
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, folderNames);
         setListAdapter(adapter);
@@ -44,9 +55,29 @@ public class HistoryPage extends ListActivity {
         });
         folderListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> adapterView, View v, int position, long arg3) {
+                // called when user clicks and holds on folder name
                 g.setTempFolderSelection(position);
                 onCreateMainDialog(savedInstanceState).show();
                 return true;
+            }
+        });
+
+        sortButton = (Button) findViewById(R.id.sort_button);
+        sortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSortName) {
+                    // already sorted alphabetically, reorder by most recent
+                    setFolderNames();
+                    sortButton.setText(R.string.sort_name);
+                } else {
+                    // already sorted by most recent, reorder alphabetically
+                    Collections.sort(folderNames);
+                    sortButton.setText(R.string.sort_recent);
+                }
+
+                adapter.notifyDataSetChanged();
+                isSortName = !isSortName;
             }
         });
     }
@@ -58,11 +89,12 @@ public class HistoryPage extends ListActivity {
         return true;
     }
 
+    // CITE THIS
     public Dialog onCreateMainDialog(final Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("What would you like to do?")
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.like_to_do)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         onCreateDialog(savedInstanceState).show();
                     }
@@ -71,7 +103,7 @@ public class HistoryPage extends ListActivity {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
-        builder.setNeutralButton("Edit", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(R.string.edit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 g.setOnEditMode(2);
                 Intent goToNextActivity = new Intent(getApplicationContext(), SaveTimePage.class);
@@ -86,8 +118,8 @@ public class HistoryPage extends ListActivity {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to delete this?")
-                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.delete_confirmation)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         g.removeFolder(g.getTempFolderSelection());
                         finish();
@@ -101,6 +133,15 @@ public class HistoryPage extends ListActivity {
         // Create the AlertDialog object and return it
         return builder.create();
     }
+
+    private void setFolderNames() {
+        String[] names = g.getFolderNames();
+        folderNames.clear();
+        for(int i = 0; i < names.length; i++){
+            folderNames.add(names[i]);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

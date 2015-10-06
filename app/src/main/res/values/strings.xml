@@ -19,9 +19,20 @@
     <string name="cancel">Cancel</string>
     <string name="new_folder">[Create New Folder]</string>
     <string name="select_folder">[Select Folder]</string>
+    <string name="folder_warning">"Please make sure you filled in exactly one of the folder options."</string>
+    <string name="title_warning">"Please enter a title."</string>
 
     <string name="title_activity_history_page">HistoryPage</string>
+    <string name="like_to_do">What would you like to do?</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+
     <string name="title_activity_settings_page">SettingsPage</string>
+
     <string name="title_activity_times_page">TimesPage</string>
-    <string name="title_activity_single_time_page">SingleTimePage</string>
+    <string name="sort_name">Sort by Name</string>
+    <string name="sort_recent">Sort by Recent</string>
+    <string name="delete_confirmation">Are you sure you want to delete this?</string>
+    <string name="yes">Yes</string>
+    <string name="empty_delete_confirmation">This folder is empty, would you like to delete it?</string>
 </resources>

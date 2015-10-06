@@ -19,15 +19,19 @@ public class SaveTimePage extends Activity {
     private EditText nameEditText, folderEditText;
     private Spinner folderSpinner;
     private Button saveButton, cancelButton;
+    private GlobalClass g;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(GlobalClass.getInstance().getOnEditMode() == 1){
-            GlobalClass.getInstance().getFolder(GlobalClass.getInstance().getTempFolderSelection()).removeTime(GlobalClass.getInstance().getTempTimeSelection());
-            GlobalClass.getInstance().setOnEditMode(0);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_time_page);
+
+        g = GlobalClass.getInstance();
+
+        if(g.getOnEditMode() == 1){
+            g.getFolder(g.getTempFolderSelection()).removeTime(g.getTempTimeSelection());
+            g.setOnEditMode(0);
+        }
 
         nameEditText = (EditText) findViewById(R.id.name_editText);
         folderEditText = (EditText) findViewById(R.id.folder_editText);
@@ -38,7 +42,7 @@ public class SaveTimePage extends Activity {
 
     private void setUpSpinner() {
         folderSpinner = (Spinner) findViewById(R.id.folder_spinner);
-        String[] names = GlobalClass.getInstance().getFolderNames();
+        String[] names = g.getFolderNames();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, names);
@@ -52,13 +56,12 @@ public class SaveTimePage extends Activity {
     }
 
     private void setUpButtons() {
-        final GlobalClass g = GlobalClass.getInstance();
         saveButton = (Button) findViewById(R.id.save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (GlobalClass.getInstance().getOnEditMode() == 2) {
-                    GlobalClass.getInstance().getFolder(GlobalClass.getInstance().getTempFolderSelection()).setName(folderEditText.getText().toString());
+                if (g.getOnEditMode() == 2) {
+                    g.getFolder(g.getTempFolderSelection()).setName(folderEditText.getText().toString());
                     Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
                     startActivity(goToNextActivity);
                 } else {
@@ -71,11 +74,11 @@ public class SaveTimePage extends Activity {
                     if ((useNewFolder && useOldFolder) || (!useNewFolder && !useOldFolder)) {
                         // user inputted something in both text box and spinner or did not input anything
                         Toast errorToast = Toast.makeText(getApplicationContext(),
-                                "Please make sure you filled in exactly one of the folder options.", Toast.LENGTH_SHORT);
+                                R.string.folder_warning, Toast.LENGTH_SHORT);
                         errorToast.show();
                     } else if (titleBlank) {
                         Toast errorToast = Toast.makeText(getApplicationContext(),
-                                "Please enter a title.", Toast.LENGTH_SHORT);
+                                R.string.title_warning, Toast.LENGTH_SHORT);
                         errorToast.show();
                     } else {
                         if (useNewFolder) {
@@ -92,11 +95,12 @@ public class SaveTimePage extends Activity {
 
                         Time time = new Time(nameEditText.getText().toString(), g.getTempDuration());
                         time.setStartTime(g.getTempStartTime());
-                        time.setEndTime(g.getTempEndTime());
                         g.getFolderList().get(index).addTime(time);
 
                         Intent goToNextActivity = new Intent(getApplicationContext(), HomeScreen.class);
                         startActivity(goToNextActivity);
+
+                        g.setTempDuration(0); // reset tempDuration
                     }
                 }
             }

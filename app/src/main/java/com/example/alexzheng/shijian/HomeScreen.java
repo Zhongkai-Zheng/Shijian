@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ public class HomeScreen extends AppCompatActivity {
     private boolean isStopped; // true if timer stopped, false if timer going
 
     // timeWhenStopped stuff from http://stackoverflow.com/questions/5740516/chronometer-doesnt-stop-in-android
+    // timeWhenStopped prevents elapsed time from increasing when timer is paused
     private long initialTime, timeWhenStopped;
 
     @Override
@@ -32,6 +34,7 @@ public class HomeScreen extends AppCompatActivity {
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // open history page
                 Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
                 startActivity(goToNextActivity);
             }
@@ -51,6 +54,7 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isStarted == false) {
+                    // store time stamp when timer is started
                     int seconds = calendar.get(Calendar.SECOND);
                     int hours = calendar.get(Calendar.HOUR_OF_DAY);
                     int minutes = calendar.get(Calendar.MINUTE);
@@ -76,7 +80,9 @@ public class HomeScreen extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long time = SystemClock.elapsedRealtime() - timer.getBase();
+                // set tempDuration and open save page
+
+                long time = initialTime + SystemClock.elapsedRealtime() - timer.getBase();
                 GlobalClass.getInstance().setTempDuration(time);
                 Intent goToNextActivity = new Intent(getApplicationContext(), SaveTimePage.class);
                 startActivity(goToNextActivity);
@@ -87,22 +93,31 @@ public class HomeScreen extends AppCompatActivity {
     private void setUpChronometer() {
         timer = (Chronometer) findViewById(R.id.time_Chronometer);
         initialTime = GlobalClass.getInstance().getTempDuration();
+        Log.d("init", initialTime + "");
         timeWhenStopped = initialTime;
 
         // http://stackoverflow.com/questions/4152569/how-to-change-format-of-chronometer
         timer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer cArg) {
-                long time = SystemClock.elapsedRealtime() - cArg.getBase();
-                int h = (int) (time / 3600000);
-                int m = (int) (time - h * 3600000) / 60000;
-                int s = (int) (time - h * 3600000 - m * 60000) / 1000;
-                String hh = h < 10 ? "0" + h : h + "";
-                String mm = m < 10 ? "0" + m : m + "";
-                String ss = s < 10 ? "0" + s : s + "";
-                cArg.setText(hh + ":" + mm + ":" + ss);
+                cArg.setText(formatTime());
             }
         });
+
+        timer.setText(formatTime());
+    }
+
+    private String formatTime() {
+        // format time to display in HH:MM:SS form
+        long time = initialTime + SystemClock.elapsedRealtime() - timer.getBase();
+        int h = (int) (time / 3600000);
+        int m = (int) (time - h * 3600000) / 60000;
+        int s = (int) (time - h * 3600000 - m * 60000) / 1000;
+        String hh = h < 10 ? "0" + h : h + "";
+        String mm = m < 10 ? "0" + m : m + "";
+        String ss = s < 10 ? "0" + s : s + "";
+
+        return hh + ":" + mm + ":" + ss;
     }
 
     private void changeTimerState() {
@@ -129,10 +144,12 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     private void reset() {
+        timer.setBase(SystemClock.elapsedRealtime());
         timer.stop();
 
         isStopped = true;
         timeWhenStopped = 0;
+        initialTime = 0;
 
         startButton.setText(getString(R.string.start));
         timer.setText(getString(R.string.zero));
