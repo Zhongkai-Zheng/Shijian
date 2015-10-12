@@ -81,7 +81,7 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // set tempDuration and open save page
-                if (timeWhenStopped == 0) {
+                if (timeWhenStopped == initialTime) {
                     timer.setBase(SystemClock.elapsedRealtime());
                     timer.setText(formatTime());
                 }
@@ -97,7 +97,6 @@ public class HomeScreen extends AppCompatActivity {
     private void setUpChronometer() {
         timer = (Chronometer) findViewById(R.id.time_Chronometer);
         initialTime = GlobalClass.getInstance().getTempDuration();
-        Log.d("init", initialTime + "");
         timeWhenStopped = initialTime;
 
         // http://stackoverflow.com/questions/4152569/how-to-change-format-of-chronometer
