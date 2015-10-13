@@ -15,8 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="History"
-            android:id="@+id/time_title_textView" />
+            android:text="@string/folders"
+            android:drawableLeft="@drawable/folder_icon"
+            android:drawablePadding="5dp"
+            android:id="@+id/history_title_textView" />
 
         <View
             android:layout_width="0dp"

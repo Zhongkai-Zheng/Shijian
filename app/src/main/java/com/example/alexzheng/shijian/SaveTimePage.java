@@ -8,17 +8,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class SaveTimePage extends Activity {
 
     private EditText nameEditText, folderEditText;
     private Spinner folderSpinner;
     private Button saveButton, cancelButton;
+    private ArrayList<String> names;
+    private boolean useOldFolder, useNewFolder;
     private GlobalClass g;
 
     @Override
@@ -28,7 +34,7 @@ public class SaveTimePage extends Activity {
 
         g = GlobalClass.getInstance();
 
-        //if an existing time is being editted, delete the original time.
+        //if an existing time is being edited, delete the original time.
         if(g.getOnEditMode() == 1){
             g.getFolder(g.getTempFolderSelection()).removeTime(g.getTempTimeSelection());
             //reset to non-edit mode
@@ -43,7 +49,8 @@ public class SaveTimePage extends Activity {
 
     private void setUpSpinner() {
         folderSpinner = (Spinner) findViewById(R.id.folder_spinner);
-        String[] names = g.getFolderNames();
+        names = new ArrayList<String>(Arrays.asList(g.getFolderNames()));
+        names.add("+ Create New Folder");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, names);
@@ -52,8 +59,34 @@ public class SaveTimePage extends Activity {
         folderSpinner.setAdapter(
                 new NothingSelectedSpinnerAdapter(
                         adapter,
-                        R.layout.contact_spinner_row_nothing_selected, // Optional
+                        R.layout.contact_spinner_row_nothing_selected,
                         this));
+
+        folderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == names.size()) {
+                    // selected create new folder item
+                    folderEditText.setVisibility(View.VISIBLE);
+                    setBooleans(false, true);
+
+                } else {
+                    // different item
+                    folderEditText.setVisibility(View.INVISIBLE);
+                    setBooleans(true, false);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                setBooleans(false, false);
+            }
+        });
+    }
+
+    private void setBooleans(boolean oldF, boolean newF) {
+        useOldFolder = oldF;
+        useNewFolder = newF;
     }
 
     private void setUpButtons() {
@@ -61,7 +94,8 @@ public class SaveTimePage extends Activity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if an existing folder is being editted, only change the folder name
+
+                //if an existing folder is being edited, only change the folder name
                 if (g.getOnEditMode() == 2) {
                     g.getFolder(g.getTempFolderSelection()).setName(folderEditText.getText().toString());
                     g.setOnEditMode(0);
@@ -71,32 +105,44 @@ public class SaveTimePage extends Activity {
                 } else {
                     int index = 0;
 
-                    boolean useNewFolder = folderEditText.getText().toString().trim().length() != 0;
-                    boolean useOldFolder = folderSpinner.getSelectedItem() != null;
-                    boolean titleBlank = nameEditText.getText().toString().trim().length() == 0;
-
-                    if ((useNewFolder && useOldFolder) || (!useNewFolder && !useOldFolder)) {
-                        // user inputted something in both text box and spinner or did not input anything
-                        Toast errorToast = Toast.makeText(getApplicationContext(),
-                                R.string.folder_warning, Toast.LENGTH_SHORT);
-                        errorToast.show();
-                    } else if (titleBlank) {
+                    // check whether title field is blank, if so display error message
+                    if (nameEditText.getText().toString().trim().length() == 0) {
                         Toast errorToast = Toast.makeText(getApplicationContext(),
                                 R.string.title_warning, Toast.LENGTH_SHORT);
                         errorToast.show();
-                    } else {
-                        if (useNewFolder) {
-                            // create new folder and add to global class
-                            g.addFolder(new Folder(folderEditText.getText().toString()));
-                            index = 0; // add new folder to beginning
-                        } else {
-                            // set index to selected item on spinner
+                    }
+
+                    // check whether folder title field is blank, if so display error message
+                    else if (useNewFolder && folderEditText.getText().toString().trim().length() == 0) {
+                        Toast errorToast = Toast.makeText(getApplicationContext(),
+                                R.string.folderName_warning, Toast.LENGTH_SHORT);
+                        errorToast.show();
+                    }
+
+                    else if (folderSpinner.getSelectedItem() == null) {
+                        // user did not select anything
+                        Toast errorToast = Toast.makeText(getApplicationContext(),
+                                R.string.selectFolder_warning, Toast.LENGTH_SHORT);
+                        errorToast.show();
+                    }
+
+                    // no error messages
+                    else {
+                        if (useOldFolder) {
+                            // user selected old folder
+
                             g.setTempFolderSelection(folderSpinner.getSelectedItemPosition());
                             index = g.getTempFolderSelection() - 1;
                         }
+                        else {
+                            // user selected create new folder
+
+                            // create new folder and add to global class
+                            g.addFolder(new Folder(folderEditText.getText().toString()));
+                            index = 0; // add new folder to beginning
+                        }
 
                         // add time to appropriate folder
-
                         Time time = new Time(nameEditText.getText().toString(), g.getTempDuration());
                         time.setStartTime(g.getTempStartTime());
                         g.getFolderList().get(index).addTime(time);
@@ -125,6 +171,11 @@ public class SaveTimePage extends Activity {
         });
     }
 
+    private void displayToast(String text) {
+        Toast errorToast = Toast.makeText(getApplicationContext(),
+                text, Toast.LENGTH_SHORT);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -147,3 +198,45 @@ public class SaveTimePage extends Activity {
         return super.onOptionsItemSelected(item);
     }
 }
+
+
+//boolean useNewFolder = folderEditText.getText().toString().trim().length() != 0;
+//        boolean useOldFolder = folderSpinner.getSelectedItem() != null;
+//        boolean titleBlank = nameEditText.getText().toString().trim().length() == 0;
+//
+//        if ((useNewFolder && useOldFolder) || (!useNewFolder && !useOldFolder)) {
+//        // user inputted something in both text box and spinner or did not input anything
+//        Toast errorToast = Toast.makeText(getApplicationContext(),
+//        R.string.folder_warning, Toast.LENGTH_SHORT);
+//        errorToast.show();
+//        } else if (titleBlank) {
+//        Toast errorToast = Toast.makeText(getApplicationContext(),
+//        R.string.title_warning, Toast.LENGTH_SHORT);
+//        errorToast.show();
+//        } else {
+//        if (useNewFolder) {
+//        // create new folder and add to global class
+//        g.addFolder(new Folder(folderEditText.getText().toString()));
+//        index = 0; // add new folder to beginning
+//        } else {
+//        // set index to selected item on spinner
+//        g.setTempFolderSelection(folderSpinner.getSelectedItemPosition());
+//        index = g.getTempFolderSelection() - 1;
+//        }
+//
+//        // add time to appropriate folder
+//
+//        Time time = new Time(nameEditText.getText().toString(), g.getTempDuration());
+//        time.setStartTime(g.getTempStartTime());
+//        g.getFolderList().get(index).addTime(time);
+//        if(g.getOnEditMode() == 0) {
+//        Intent goToNextActivity = new Intent(getApplicationContext(), HomeScreen.class);
+//        startActivity(goToNextActivity);
+//        }
+//        if(g.getOnEditMode() == 1){
+//        g.setOnEditMode(0);
+//        Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
+//        startActivity(goToNextActivity);
+//        }
+//        g.setTempDuration(0); // reset tempDuration
+//        }

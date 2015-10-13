@@ -41,18 +41,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/new_folder"
-                android:id="@+id/folder_editText" />
-
             <Spinner
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/folder_spinner" />
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/new_folder"
+                android:visibility="gone"
+                android:id="@+id/folder_editText" />
+
         </LinearLayout>
     </LinearLayout>
 

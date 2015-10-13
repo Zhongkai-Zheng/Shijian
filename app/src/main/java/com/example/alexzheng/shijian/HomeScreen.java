@@ -81,10 +81,13 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // set tempDuration and open save page
-                if (timeWhenStopped == initialTime) {
-                    timer.setBase(SystemClock.elapsedRealtime());
-                    timer.setText(formatTime());
+                if (startButton.getText().equals("Stop")){
+                    // timer still running
+                    timeWhenStopped = SystemClock.elapsedRealtime();
+                    timer.stop();
                 }
+                setBase();
+                timer.setText(formatTime());
 
                 long time = initialTime + SystemClock.elapsedRealtime() - timer.getBase();
                 GlobalClass.getInstance().setTempDuration(time);
@@ -113,6 +116,7 @@ public class HomeScreen extends AppCompatActivity {
     private String formatTime() {
         // format time to display in HH:MM:SS form
         long time = initialTime + SystemClock.elapsedRealtime() - timer.getBase();
+        Log.d("time", time +"");
         int h = (int) (time / 3600000);
         int m = (int) (time - h * 3600000) / 60000;
         int s = (int) (time - h * 3600000 - m * 60000) / 1000;
@@ -126,13 +130,7 @@ public class HomeScreen extends AppCompatActivity {
     private void changeTimerState() {
         if(isStopped) {
             // previously was stopped
-            if (timeWhenStopped == initialTime) {
-                timer.setBase(SystemClock.elapsedRealtime());
-            }
-            else {
-                timer.setBase(timer.getBase() + SystemClock.elapsedRealtime() - timeWhenStopped);
-            }
-
+            setBase();
             timer.start();
             startButton.setText(getString(R.string.stop));
         }
@@ -156,6 +154,16 @@ public class HomeScreen extends AppCompatActivity {
 
         startButton.setText(getString(R.string.start));
         timer.setText(getString(R.string.zero));
+    }
+
+    private void setBase() {
+        if (timeWhenStopped == initialTime) {
+            timer.setBase(SystemClock.elapsedRealtime());
+        }
+        else {
+            timer.setBase(timer.getBase() + SystemClock.elapsedRealtime() - timeWhenStopped);
+        }
+
     }
 
     @Override

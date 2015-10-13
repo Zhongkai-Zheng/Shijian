@@ -17,12 +17,14 @@
     <string name="title">Title</string>
     <string name="folder">Folder</string>
     <string name="cancel">Cancel</string>
-    <string name="new_folder">[Create New Folder]</string>
+    <string name="new_folder">[New Folder Name]</string>
     <string name="select_folder">[Select Folder]</string>
-    <string name="folder_warning">"Please make sure you filled in exactly one of the folder options."</string>
     <string name="title_warning">"Please enter a title."</string>
+    <string name="folderName_warning">"Please enter a folder name."</string>
+    <string name="selectFolder_warning">"Please select a folder option."</string>
 
     <string name="title_activity_history_page">HistoryPage</string>
+    <string name="folders">Folders</string>
     <string name="like_to_do">What would you like to do?</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
