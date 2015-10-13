@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IntegerRes;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.Menu;
@@ -23,7 +25,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class TimesPage extends ListActivity {
+public class TimesPage extends AppCompatActivity {
 
     private TextView timeTitleTextView;
     private Button sortButton;
@@ -38,6 +40,7 @@ public class TimesPage extends ListActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_times_page);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         g = GlobalClass.getInstance();
         timeNames = new ArrayList<String>();
@@ -48,11 +51,11 @@ public class TimesPage extends ListActivity {
         timeTitleTextView = (TextView) findViewById(R.id.time_title_textView);
         timeTitleTextView.setText(g.getFolder(g.getTempFolderSelection()).getName() + " Times");
 
+        timesListView = (ListView) findViewById(R.id.times_list);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, timeNames); // default adapter containing all timeNames
-        setListAdapter(adapter);
+        timesListView.setAdapter(adapter);
 
-        timesListView = getListView();
         timesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> adapterView, View v, int position, long arg3) {
                 g.setTempTimeSelection(position);
@@ -158,14 +161,13 @@ public class TimesPage extends ListActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void setTimeNames(){

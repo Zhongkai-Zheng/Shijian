@@ -2,6 +2,8 @@ package com.example.alexzheng.shijian;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class SaveTimePage extends Activity {
+public class SaveTimePage extends AppCompatActivity {
 
     private EditText nameEditText, folderEditText;
     private Spinner folderSpinner;
@@ -31,6 +33,7 @@ public class SaveTimePage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_time_page);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         g = GlobalClass.getInstance();
 
@@ -188,55 +191,12 @@ public class SaveTimePage extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
-
-
-//boolean useNewFolder = folderEditText.getText().toString().trim().length() != 0;
-//        boolean useOldFolder = folderSpinner.getSelectedItem() != null;
-//        boolean titleBlank = nameEditText.getText().toString().trim().length() == 0;
-//
-//        if ((useNewFolder && useOldFolder) || (!useNewFolder && !useOldFolder)) {
-//        // user inputted something in both text box and spinner or did not input anything
-//        Toast errorToast = Toast.makeText(getApplicationContext(),
-//        R.string.folder_warning, Toast.LENGTH_SHORT);
-//        errorToast.show();
-//        } else if (titleBlank) {
-//        Toast errorToast = Toast.makeText(getApplicationContext(),
-//        R.string.title_warning, Toast.LENGTH_SHORT);
-//        errorToast.show();
-//        } else {
-//        if (useNewFolder) {
-//        // create new folder and add to global class
-//        g.addFolder(new Folder(folderEditText.getText().toString()));
-//        index = 0; // add new folder to beginning
-//        } else {
-//        // set index to selected item on spinner
-//        g.setTempFolderSelection(folderSpinner.getSelectedItemPosition());
-//        index = g.getTempFolderSelection() - 1;
-//        }
-//
-//        // add time to appropriate folder
-//
-//        Time time = new Time(nameEditText.getText().toString(), g.getTempDuration());
-//        time.setStartTime(g.getTempStartTime());
-//        g.getFolderList().get(index).addTime(time);
-//        if(g.getOnEditMode() == 0) {
-//        Intent goToNextActivity = new Intent(getApplicationContext(), HomeScreen.class);
-//        startActivity(goToNextActivity);
-//        }
-//        if(g.getOnEditMode() == 1){
-//        g.setOnEditMode(0);
-//        Intent goToNextActivity = new Intent(getApplicationContext(), HistoryPage.class);
-//        startActivity(goToNextActivity);
-//        }
-//        g.setTempDuration(0); // reset tempDuration
-//        }
